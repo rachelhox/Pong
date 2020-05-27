@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	// Setting up the game
+	//Setting up the game
 	var canvas = document.getElementById("canvas");
 	var ctx = canvas.getContext("2d");
 	var gameOver = true;
@@ -13,20 +13,18 @@ $(document).ready(function(){
 
 	// User Inputs
 	var keyPressed = null;
-	
+
 	// Setting up the game objects
 	var player = {
 		x: null,
 		y: null,
 		width: 20,
 		height: 100,
-
 		update: function(){
 			// Moving the paddle according to the keyPressed
 			if(keyPressed == 38) this.y -= 10;
 			if(keyPressed == 40) this.y += 10;
 		},
-
 		draw: function(){
 			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
@@ -37,12 +35,10 @@ $(document).ready(function(){
 		y: null,
 		width: 20,
 		height: 100,
-
 		update: function(){
 			let target = ball.y - (this.height - ball.size) / 2;
 			this.y += (target - this.y) * 0.1;
 		},
-
 		draw: function(){
 			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
@@ -55,24 +51,23 @@ $(document).ready(function(){
 		speedx: null,
 		speedy: null,
 		speed: 10,
-
 		update: function(){
 			// Moving the ball
 			this.x += this.speedx;
 			this.y += this.speedy;
 
-			// Bounce on top & bottom edge
+			//Bounce on top & bottom edge
 			if(this.y + this.size >= HEIGHT || this.y <= 0){
 				this.speedy *= -1;
 			}
 
 			// Function for collision checking
 			function checkCollision(a, b){
-				// Return true of ball collide with others
+				//Return true of ball collide with others
 				return (a.x < b.x + b.width && a.y < b.y + b.height && b.x < a.x + a.size && b.y < a.y + a.size);
 			}
 
-			// Movement direction determines which object the ball will collide with
+			// Movement direction determines which oject the ball will collide with
 			let other;
 
 			if(ball.speedx < 0){
@@ -87,7 +82,7 @@ $(document).ready(function(){
 			// An equation for ball's moving direction when it collides with the paddle
 			if(collided){
 				let n = (this.y + this.size - other.y) / (other.height + this.size);
-				let phi = 0.25 * PI * (2 * n - 1)
+				let phi = 0.25 * PI * (2 * n -1)
 				this.speedx = this.speed * Math.cos(phi);
 				this.speedy = this.speed * Math.sin(phi);
 				if(other == ai) this.speedx *= -1;
@@ -102,19 +97,17 @@ $(document).ready(function(){
 					$("h1").html("You Win!");
 				}
 			}
+		
 		},
-
 		draw: function(){
 			ctx.fillRect(this.x, this.y, this.size, this.size);
 		}
 	}
 
-	// Main function
 	function main(){
-		// Initialize the game
+		//Initialize the game
 		init();
 
-		// Loop for recursive call of window.requestAnimationFrame()
 		var loop = function(){
 			update();
 			draw();
@@ -125,7 +118,6 @@ $(document).ready(function(){
 
 	// Game Initialization for object's positions
 	function init(){
-
 		gameOver = false;
 
 		$("h1").html("Pong");
@@ -143,25 +135,25 @@ $(document).ready(function(){
 
 		// Serving the ball
 		ball.speedx = ball.speed;
-		// This gives either 0 or 1 to serve the ball in random direction
+		//This gives either 0 or 1 to serve the ball in random direction
 		if(Math.round(Math.random()))
 			ball.speedx *= -1;
 		ball.speedy = 0;
+
 	}
 
-	// Game Update
 	function update(){
 		if(!gameOver)
 			ball.update();
 		ai.update();
 		player.update();
+
 	}
 
-	// Draw new frame
 	function draw(){
-		ctx.fillRect(0, 0, WIDTH, HEIGHT); // Fill the background black
+		ctx.fillRect(0, 0, WIDTH, HEIGHT); //Fill the background black
 
-		ctx.save(); // Save current settings of drawing
+		ctx.save(); //Save current settings of drawing 
 
 		// Drawing the game objects in white
 		ctx.fillStyle = "white";
@@ -169,7 +161,7 @@ $(document).ready(function(){
 		ai.draw();
 		player.draw();
 
-		// Optional: Drawing some white stripes for styles
+		//Optional: Drawing some white stripes for styles
 		let w = 4;
 		let x = (WIDTH - w) / 2;
 		let y = 0;
@@ -179,7 +171,8 @@ $(document).ready(function(){
 			y += step;
 		}
 
-		ctx.restore(); // Restore the saved settings of drawing
+		ctx.restore(); //Restore the saved settings of drawing
+
 	}
 
 	// Sensing the user's key inputs
@@ -197,6 +190,6 @@ $(document).ready(function(){
 		init();
 	})
 
-	// Calling the main function
+	// Calling the main function to start the game
 	main();
 });
