@@ -6,8 +6,9 @@ body {
 }
 
 #canvas {
-	position: flex;
+	/*position: flex; */
 	margin: auto;
+	border: 1px solid black;
 }
 
 button {
